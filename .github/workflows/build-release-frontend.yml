@@ -24,7 +24,7 @@ jobs:
     - name: Build and push Docker images
       run: |
         cd ./services/frontend
-        docker build -t tecke/homecluster-frontend -t homecluster-frontend . 
+        docker build -t tecke/homecluster-frontend -t homecluster-frontend --platform linux/arm64 . 
         docker push tecke/homecluster-frontend
 
 
