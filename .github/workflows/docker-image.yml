@@ -1,0 +1,29 @@
+name: Build and Push Frontend
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Docker Login
+      uses: docker/login-action@v2.0.0
+      with:
+        username: tecke
+        password: ${{ secrets.DOCKERHUB_PAT }}
+        
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v3.0.0
+      with:
+        file: ./services/frontend/Dockerfile
+        tags: tecke/homecluster-frontend
+
