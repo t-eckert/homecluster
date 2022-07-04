@@ -1,27 +1,26 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 )
 
-var OPEN_WEATHER_API_KEY string
+var ApiKey string
+var DefaultLocation *Location
 
 func main() {
-	if err := SetEnv(); err != nil {
-		log.Fatalf(err.Error())
+	// Get configuration from the environment
+	if ApiKey = os.Getenv("OPEN_WEATHER_API_KEY"); ApiKey == "" {
+		log.Fatalf("OPEN_WEATHER_API_KEY environment variable missing.")
+	}
+
+	lon, lat := os.Getenv("LONGITUDE"), os.Getenv("LATITUDE")
+	if lon != "" && lat != "" {
+		DefaultLocation = &Location{lon, lat}
 	}
 
 	http.HandleFunc("/", HandleWeather)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
-}
-
-func SetEnv() error {
-	if OPEN_WEATHER_API_KEY = os.Getenv("OPEN_WEATHER_API_KEY"); OPEN_WEATHER_API_KEY == "" {
-		return fmt.Errorf("OPEN_WEATHER_API_KEY environment variable missing.")
-	}
-	return nil
 }

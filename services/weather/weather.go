@@ -10,6 +10,8 @@ type Location struct {
 	latitude, longitude string
 }
 
+// HandleWeather parses a request for weather data and returns the weather for
+// a given location using the OpenWeather API.
 func HandleWeather(w http.ResponseWriter, r *http.Request) {
 	location, err := parseLocation(r)
 	if err != nil {
@@ -33,6 +35,10 @@ func parseLocation(r *http.Request) (Location, error) {
 	loc.latitude = r.URL.Query().Get("lat")
 	loc.longitude = r.URL.Query().Get("lon")
 
+	if (loc.latitude == "" || loc.longitude == "") && DefaultLocation != nil {
+		return *DefaultLocation, nil
+	}
+
 	if loc.latitude == "" {
 		return loc, fmt.Errorf("Missing query param for latitude. Try ?lat=<latitude>.")
 	}
@@ -47,7 +53,7 @@ func parseLocation(r *http.Request) (Location, error) {
 func fetchWeather(location Location) (string, error) {
 	resp, err := http.Get(
 		fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric",
-			location.latitude, location.longitude, OPEN_WEATHER_API_KEY),
+			location.latitude, location.longitude, ApiKey),
 	)
 	if err != nil {
 		return "", err
