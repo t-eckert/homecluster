@@ -8,10 +8,10 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /api/weather
             pathType: Prefix
             backend:
               service:
-                name: frontend
+                name: weather
                 port:
                   number: 80
