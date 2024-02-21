@@ -2,7 +2,7 @@ FROM golang:1.20.3-alpine AS builder
 
 RUN mkdir /app
 
-ADD . /app
+COPY . /app
 
 WORKDIR /app
 
