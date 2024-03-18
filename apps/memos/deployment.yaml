@@ -20,6 +20,14 @@ spec:
           volumeMounts:
             - mountPath: /var/opt/memos
               name: memos-volume
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
       volumes:
         - name: memos-volume
           persistentVolumeClaim:
