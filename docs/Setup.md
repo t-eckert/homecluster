@@ -2,7 +2,10 @@
 
 Homecluster runs on Kubernetes running on a Raspberry Pi using Talos Linux.
 This document will guide you through the process of installing Talos Linux
-and running Homecluster.
+on a Raspberry Pi and running Homecluster.
+
+> [!NOTE]
+> I wrote this guide as I configured the cluster, it may have mistakes.
 
 ## Prerequisites
 
@@ -24,7 +27,7 @@ SSH access.
 
 Use the [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
 to write an EEPROM update image to an SD card. Select Misc utility images under
-the "Operating System" tab. Insert the SD card into the Raspberr Pi, power it on,
+the "Operating System" tab. Insert the SD card into the Raspberry Pi, power it on,
 and wait at least 10 seconds. If the update was successful, the green LED light
 will blink rapidly.
 
@@ -38,19 +41,45 @@ don’t have to look for the dynamically assigned IP when you boot them up. If y
 don’t know how to find out the MAC address, check this
 [guide](https://kubito.dev/posts/getting-pi-mac-address/)
 
+I have my Pi wired to my router, which assigns it a consistent address.
+
 ## Installing Talos Linux
+
+Set the version of Talos you want to install.
+
+```shell
+export TALOS_VERSION=v1.6.5
+```
 
 Download the Talos Linux image.
 
 ```shell
-curl -LO https://github.com/siderolabs/talos/releases/download/v1.6.4/metal-rpi_generic-arm64.raw.xz
+curl -LO https://github.com/siderolabs/talos/releases/download/$TALOS_VERSION/metal-rpi_generic-arm64.raw.xz
 xz -d metal-rpi_generic-arm64.raw.xz
+```
+
+Insert your SD card into your computer. On MacOS, use `diskutil` to find the device
+name of the SD card.
+
+```shell
+distutil list
 ```
 
 Image the SD card.
 
 ```shell
-sudo dd if=metal-rpi_generic-arm64.raw of=/dev/mmcblk0 conv=fsync bs=4M
+sudo dd if=metal-rpi_generic-arm64.raw of=/dev/<DISK-NAME> conv=fsync bs=4M
+```
+
+Insert the SD card into the Raspberry Pi and power it on.
+
+## Configure the Cluster
+
+Set the name of your cluster and the IP address of the Raspberry Pi.
+
+```shell
+export CLUSTER_NAME=homecluster
+export RASPBERRY_PI_IP=<IP>
 ```
 
 Bootstrap the cluster.
@@ -69,3 +98,4 @@ talosctl kubeconfig
 
 - [Raspberry Pi Installation Docs](https://www.talos.dev/v1.6/talos-guides/install/single-board-computers/rpi_generic/)
 - [Installing Talos Linux on Raspberry Pi 4](https://kubito.dev/posts/talos-linux-raspberry-pi/)
+- [Talos Getting Started](https://www.talos.dev/v1.6/introduction/getting-started/)
