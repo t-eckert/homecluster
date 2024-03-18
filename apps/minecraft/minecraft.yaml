@@ -16,23 +16,6 @@ type: Opaque
 data:
   rcon-password: "Q0hBTkdFTUUh"
 ---
-# Source: minecraft/templates/secrets.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: "minecraft-minecraft-curseforge"
-  labels:
-    app: minecraft-minecraft
-    chart: "minecraft-4.15.0"
-    release: "minecraft"
-    heritage: "Helm"
-    app.kubernetes.io/name: "minecraft"
-    app.kubernetes.io/instance: minecraft-minecraft
-    app.kubernetes.io/version: "4.15.0"
-type: Opaque
-data:
-  cf-api-key: "Q0hBTkdFTUUh"
----
 # Source: minecraft/templates/minecraft-svc.yaml
 apiVersion: v1
 kind: Service
