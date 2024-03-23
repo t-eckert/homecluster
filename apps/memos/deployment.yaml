@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: memos
+  namespace: memos
 spec:
   replicas: 1
   selector:
@@ -20,14 +21,6 @@ spec:
           volumeMounts:
             - mountPath: /var/opt/memos
               name: memos-volume
-          securityContext:
-            allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            capabilities:
-              drop:
-                - ALL
-            seccompProfile:
-              type: RuntimeDefault
       volumes:
         - name: memos-volume
           persistentVolumeClaim:
