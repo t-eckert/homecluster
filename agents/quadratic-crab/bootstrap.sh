@@ -25,9 +25,9 @@ sudo apt-get update
 # Install the latest version of Docker Engine and containerd
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 
-mkdir -p /var/lib/postgresql/data
+sudo mkdir -p /var/lib/postgresql/data
 
-docker run -d \
+sudo docker run -d \
   --name quadratic-crab \
   -p 5432:5432 \
   -v /var/lib/postgresql/data:/var/lib/postgresql/data \
