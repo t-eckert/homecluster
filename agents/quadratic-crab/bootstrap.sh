@@ -29,6 +29,7 @@ sudo mkdir -p /var/lib/postgresql/data
 
 sudo docker run -d \
   --name quadratic-crab \
+  -e POSTGRES_PASSWORD=quadratic-crab \
   -p 5432:5432 \
   -v /var/lib/postgresql/data:/var/lib/postgresql/data \
   postgres
