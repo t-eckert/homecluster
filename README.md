@@ -1,13 +1,7 @@
 # Homecluster
 
-Homecluster is my Kubernetes-based homelab.
+![Photograph of the homecluster](./media/cluster.jpeg)
 
-I run it on a Raspberry Pi 4 using Talos Linux.
+Homecluster is my homelab. I use it for learning, running fun things, and whatever I feel like. I currently run a single Raspberry Pi for Kubernetes using Talos Linux and have two older Pis running Raspbian for running various tasks. I want to gradually build towards a four node Kubernetes cluster using Talos, but I'll need to buy three more modern Pis for that.
 
-If you would like to run it too, check out [Setup](/docs/Setup.md).
-I use [Flux](/docs/Flux.md) for automated deployments.
-
-## Apps
-
-- Minecraft
-- Memos
+Running a homelab is a learning experience and I want to share what I learn with everyone else. I try to [document my work](./notebook) for my future self and for others.
