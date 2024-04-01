@@ -1,11 +1,7 @@
-# Homecluster Setup
+# Setting up Talos
 
-Homecluster runs on Kubernetes running on a Raspberry Pi using Talos Linux.
 This document will guide you through the process of installing Talos Linux
 on a Raspberry Pi and running Homecluster.
-
-> [!NOTE]
-> I wrote this guide as I configured the cluster, it may have mistakes.
 
 ## Prerequisites
 
@@ -25,30 +21,16 @@ SSH access.
 
 ## Update the EEPROM on the Raspberry Pi
 
-Use the [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
-to write an EEPROM update image to an SD card. Select Misc utility images under
-the "Operating System" tab. Insert the SD card into the Raspberry Pi, power it on,
-and wait at least 10 seconds. If the update was successful, the green LED light
-will blink rapidly.
+Use the [Raspberry Pi Imager](https://www.raspberrypi.com/software/) to write an EEPROM update image to an SD card. Select Misc utility images under the "Operating System" tab. Insert the SD card into the Raspberry Pi, power it on, and wait at least 10 seconds. If the update was successful, the green LED light will blink rapidly.
 
 Power off the Raspberry Pi and remove the SD card.
-
-## Set the IP Address of the Pi
-
-It would be a good idea if you set up the static IPs of each of the Raspberry
-Pi boards via their MAC address on your router before beginning. This is so you
-don’t have to look for the dynamically assigned IP when you boot them up. If you
-don’t know how to find out the MAC address, check this
-[guide](https://kubito.dev/posts/getting-pi-mac-address/)
-
-I have my Pi wired to my router, which assigns it a consistent address.
 
 ## Installing Talos Linux
 
 Set the version of Talos you want to install.
 
 ```shell
-export TALOS_VERSION=v1.6.5
+export TALOS_VERSION=v1.6.7
 ```
 
 Download the Talos Linux image.
