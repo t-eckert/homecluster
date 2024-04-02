@@ -6,9 +6,6 @@ metadata:
   name: pihole-password
   labels:
     app: pihole
-    chart: pihole-2.22.0
-    heritage: Helm
-    release: pihole
 type: Opaque
 data:
   password: "YWRtaW4="
@@ -20,9 +17,6 @@ metadata:
   name: pihole-custom-dnsmasq
   labels:
     app: pihole
-    chart: pihole-2.22.0
-    release: pihole
-    heritage: Helm
 data:
   02-custom.conf: |
     addn-hosts=/etc/addn-hosts
@@ -36,9 +30,6 @@ metadata:
   name: pihole-dhcp
   labels:
     app: pihole
-    chart: pihole-2.22.0
-    release: pihole
-    heritage: Helm
 spec:
   type: NodePort
   externalTrafficPolicy: Local
@@ -58,9 +49,6 @@ metadata:
   name: pihole-dns-tcp
   labels:
     app: pihole
-    chart: pihole-2.22.0
-    release: pihole
-    heritage: Helm
 spec:
   type: NodePort
   externalTrafficPolicy: Local
@@ -80,9 +68,6 @@ metadata:
   name: pihole-dns-udp
   labels:
     app: pihole
-    chart: pihole-2.22.0
-    release: pihole
-    heritage: Helm
 spec:
   type: NodePort
   externalTrafficPolicy: Local
@@ -102,9 +87,6 @@ metadata:
   name: pihole-web
   labels:
     app: pihole
-    chart: pihole-2.22.0
-    release: pihole
-    heritage: Helm
 spec:
   type: ClusterIP
   ports:
@@ -157,44 +139,44 @@ spec:
       dnsPolicy: None
       dnsConfig:
         nameservers:
-        - 127.0.0.1
-        - 8.8.8.8
-      hostname: 
+          - 127.0.0.1
+          - 8.8.8.8
+      hostname:
       hostNetwork: false
       containers:
         - name: pihole
           env:
-          - name: 'WEB_PORT'
-            value: "80"
-          - name: VIRTUAL_HOST
-            value: pi.hole
-          - name: WEBPASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: password
-                name: pihole-password
-          - name: 'PIHOLE_DNS_'
-            value: '8.8.8.8;8.8.4.4'
+            - name: "WEB_PORT"
+              value: "80"
+            - name: VIRTUAL_HOST
+              value: pi.hole
+            - name: WEBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pihole-password
+            - name: "PIHOLE_DNS_"
+              value: "8.8.8.8;8.8.4.4"
           image: "pihole/pihole:2024.02.0"
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: false
           ports:
-          - containerPort: 80
-            name: http
-            protocol: TCP
-          - containerPort: 53
-            name: dns
-            protocol: TCP
-          - containerPort: 53
-            name: dns-udp
-            protocol: UDP
-          - containerPort:  443
-            name: https
-            protocol: TCP
-          - containerPort: 67
-            name: client-udp
-            protocol: UDP
+            - containerPort: 80
+              name: http
+              protocol: TCP
+            - containerPort: 53
+              name: dns
+              protocol: TCP
+            - containerPort: 53
+              name: dns-udp
+              protocol: UDP
+            - containerPort: 443
+              name: https
+              protocol: TCP
+            - containerPort: 67
+              name: client-udp
+              protocol: UDP
           livenessProbe:
             httpGet:
               path: /admin/index.php
@@ -212,36 +194,19 @@ spec:
             failureThreshold: 3
             timeoutSeconds: 5
           volumeMounts:
-          - mountPath: /etc/pihole
-            name: config
-          - mountPath: /etc/dnsmasq.d/02-custom.conf
-            name: custom-dnsmasq
-            subPath: 02-custom.conf
-          - mountPath: /etc/addn-hosts
-            name: custom-dnsmasq
-            subPath: addn-hosts
-          resources:
-            {}
+            - mountPath: /etc/pihole
+              name: config
+            - mountPath: /etc/dnsmasq.d/02-custom.conf
+              name: custom-dnsmasq
+              subPath: 02-custom.conf
+            - mountPath: /etc/addn-hosts
+              name: custom-dnsmasq
+              subPath: addn-hosts
+          resources: {}
       volumes:
-      - name: config
-        emptyDir: {}
-      - configMap:
-          defaultMode: 420
-          name: pihole-custom-dnsmasq
-        name: custom-dnsmasq
----
-# Source: pihole/templates/tests/test-pihole-endpoint.yml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: "pihole-smoke-test"
-  annotations:
-    "helm.sh/hook": test
-spec:
-  containers:
-  - name: hook1-container
-    image: curlimages/curl
-    imagePullPolicy: IfNotPresent
-    command: ['sh', '-c', 'curl http://pihole-web:80/']
-  restartPolicy: Never
-  terminationGracePeriodSeconds: 0
+        - name: config
+          emptyDir: {}
+        - configMap:
+            defaultMode: 420
+            name: pihole-custom-dnsmasq
+          name: custom-dnsmasq
