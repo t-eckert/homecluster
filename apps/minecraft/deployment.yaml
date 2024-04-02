@@ -33,7 +33,7 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 512Mi
+              memory: 1024Mi
           readinessProbe:
             exec:
               command:
@@ -47,9 +47,9 @@ spec:
             exec:
               command:
                 - mc-health
-            initialDelaySeconds: 30
-            periodSeconds: 5
-            failureThreshold: 20
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 50
             successThreshold: 1
             timeoutSeconds: 1
           env:
