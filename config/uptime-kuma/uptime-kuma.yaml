@@ -1,0 +1,115 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-uptime-uptime-kuma
+  namespace: uptime-kuma
+  labels:
+    helm.sh/chart: uptime-kuma-1.3.6
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/instance: test-uptime
+    app.kubernetes.io/version: "1.23.13"
+    app.kubernetes.io/managed-by: Helm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-uptime-uptime-kuma
+  namespace: uptime-kuma
+  labels:
+    helm.sh/chart: uptime-kuma-1.3.6
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/instance: test-uptime
+    app.kubernetes.io/version: "1.23.13"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/instance: test-uptime
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test-uptime-uptime-kuma
+  namespace: uptime-kuma
+  labels:
+    helm.sh/chart: uptime-kuma-1.3.6
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/instance: test-uptime
+    app.kubernetes.io/version: "1.23.13"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  serviceName: test-uptime-uptime-kuma
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: uptime-kuma
+      app.kubernetes.io/instance: test-uptime
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: uptime-kuma
+        app.kubernetes.io/instance: test-uptime
+    spec:
+      serviceAccountName: test-uptime-uptime-kuma
+      securityContext:
+        {}
+      containers:
+        - name: uptime-kuma
+          securityContext:
+            {}
+          image: "quay.io/k3rnel-pan1c/uptime-kuma:1.23.13"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: UPTIME_KUMA_PORT
+              value: '3001'
+            - name: PORT
+              value: '3001'
+          ports:
+            - name: http
+              containerPort: 3001
+              protocol: TCP
+          volumeMounts:
+            - name: uptime-storage
+              mountPath: /app/data
+          livenessProbe:
+            exec:
+              command:
+              - extra/healthcheck
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+          resources:
+            {}
+      volumes:
+        - name: uptime-storage
+          emptyDir:
+            sizeLimit: 4Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "test-uptime-uptime-kuma-test-connection"
+  namespace: uptime-kuma
+  labels:
+    helm.sh/chart: uptime-kuma-1.3.6
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/instance: test-uptime
+    app.kubernetes.io/version: "1.23.13"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: docker.io/busybox@sha256:5eef5ed34e1e1ff0a4ae850395cbf665c4de6b4b83a32a0bc7bcb998e24e7bbb
+      command: ["/bin/sh"]
+      args: ["-c", "cd tmp/ ; wget 'test-uptime-uptime-kuma:80'"]
+  restartPolicy: Never
