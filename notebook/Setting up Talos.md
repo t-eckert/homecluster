@@ -27,17 +27,11 @@ Power off the Raspberry Pi and remove the SD card.
 
 ## Installing Talos Linux
 
-Set the version of Talos you want to install.
-
-```shell
-export TALOS_VERSION=v1.6.7
-```
-
 Download the Talos Linux image.
 
 ```shell
-curl -LO https://github.com/siderolabs/talos/releases/download/$TALOS_VERSION/metal-rpi_generic-arm64.raw.xz
-xz -d metal-rpi_generic-arm64.raw.xz
+curl -LO https://factory.talos.dev/image/ee21ef4a5ef808a9b7484cc0dda0f25075021691c8c09a276591eedb638ea1f9/v1.8.0/metal-arm64.raw.xz
+xz -d metal-arm64.raw.xz
 ```
 
 Insert your SD card into your computer. On MacOS, use `diskutil` to find the device
@@ -78,6 +72,6 @@ talosctl kubeconfig
 
 ## Reference
 
-- [Raspberry Pi Installation Docs](https://www.talos.dev/v1.6/talos-guides/install/single-board-computers/rpi_generic/)
+- [Raspberry Pi Installation Docs](https://www.talos.dev/v1.8/talos-guides/install/single-board-computers/rpi_generic/)
 - [Installing Talos Linux on Raspberry Pi 4](https://kubito.dev/posts/talos-linux-raspberry-pi/)
-- [Talos Getting Started](https://www.talos.dev/v1.6/introduction/getting-started/)
+- [Talos Getting Started](https://www.talos.dev/v1.8/introduction/getting-started/)

@@ -4,13 +4,13 @@
 
 ### Raspberry Pi 4 B (4 GB)
 
-IP: `192.168.86.215`
+IP: `10.0.0.195`
 OS: Talos Linux
-Role:
+Role: Application Host
 
 ### Raspberry Pi 4 B (1 GB)
 
-IP: `192.168.86.206`
+IP: `10.0.0.70`
 OS: Talos Linux
 Role: Control Plane
 
