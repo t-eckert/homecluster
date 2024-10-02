@@ -33,3 +33,12 @@ sudo docker run -d \
   -p 5432:5432 \
   -v /var/lib/postgresql/data:/var/lib/postgresql/data \
   postgres
+
+# Install Tailscale
+curl -fsSL https://pkgs.tailscale.com/stable/raspbian/bullseye.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg > /dev/null
+curl -fsSL https://pkgs.tailscale.com/stable/raspbian/bullseye.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+sudo apt-get update
+sudo apt-get install tailscale -y
+
+# Run Tailscale
+sudo tailscale up
