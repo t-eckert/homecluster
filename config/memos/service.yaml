@@ -3,12 +3,14 @@ kind: Service
 metadata:
   name: memos-service
   namespace: memos
+  labels:
+    tailscale.com/proxy-class: "tailscale-proxy"
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerClass: tailscale
   ports:
-    - port: 5230
+    - port: 443
       targetPort: 5230
-      nodePort: 30000
       protocol: TCP
   selector:
     app: memos

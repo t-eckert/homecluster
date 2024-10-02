@@ -16,6 +16,8 @@ metadata:
   name: test-uptime-uptime-kuma
   namespace: uptime-kuma
   labels:
+    tailscale.com/expose: "true"
+    tailscale.com/proxy-class: "tailscale-proxy"
     helm.sh/chart: uptime-kuma-1.3.6
     app.kubernetes.io/name: uptime-kuma
     app.kubernetes.io/instance: test-uptime
@@ -24,7 +26,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 80
+    - port: 443
       targetPort: http
       protocol: TCP
       name: http
@@ -92,24 +94,3 @@ spec:
         - name: uptime-storage
           emptyDir:
             sizeLimit: 4Gi
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: "test-uptime-uptime-kuma-test-connection"
-  namespace: uptime-kuma
-  labels:
-    helm.sh/chart: uptime-kuma-1.3.6
-    app.kubernetes.io/name: uptime-kuma
-    app.kubernetes.io/instance: test-uptime
-    app.kubernetes.io/version: "1.23.13"
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    "helm.sh/hook": test
-spec:
-  containers:
-    - name: wget
-      image: docker.io/busybox@sha256:5eef5ed34e1e1ff0a4ae850395cbf665c4de6b4b83a32a0bc7bcb998e24e7bbb
-      command: ["/bin/sh"]
-      args: ["-c", "cd tmp/ ; wget 'test-uptime-uptime-kuma:80'"]
-  restartPolicy: Never

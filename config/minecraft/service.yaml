@@ -5,9 +5,11 @@ metadata:
   namespace: minecraft
   labels:
     app: minecraft
+    tailscale.com/proxy-class: "tailscale-proxy"
   annotations: {}
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerClass: tailscale
   ports:
     - name: minecraft
       port: 25565
