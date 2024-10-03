@@ -1,2 +1,2 @@
 quadratic-crab:
-	tailscale ssh thomas@quadratic-crab
+	@tailscale ssh thomas@quadratic-crab

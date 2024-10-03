@@ -19,3 +19,4 @@ The [Digital Ocean droplets marketplace](https://marketplace.digitalocean.com/ca
 - [Syncthing](https://syncthing.net/)
 - [SnapDrop](https://snapdrop.net/)
 - [n8n](https://n8n.io/)
+- [Chartbrew](https://hub.docker.com/r/razvanilin/chartbrew)
