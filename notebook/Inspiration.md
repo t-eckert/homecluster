@@ -7,7 +7,7 @@
 The [Digital Ocean droplets marketplace](https://marketplace.digitalocean.com/category/all) is a great place to look for [[Homecluster]] ideas.
 [awesome-selfhosted](https://awesome-selfhosted.net/index.html)
 
-## From the Changelog Zulip
+## Apps to add
 
 - [Bookstacks](https://www.bookstackapp.com/)
 - [Vikunja](https://vikunja.io/)
@@ -20,3 +20,23 @@ The [Digital Ocean droplets marketplace](https://marketplace.digitalocean.com/ca
 - [SnapDrop](https://snapdrop.net/)
 - [n8n](https://n8n.io/)
 - [Chartbrew](https://hub.docker.com/r/razvanilin/chartbrew)
+- [Frigate NVR](https://frigate.video/)
+- Atuin: Magical shell history
+  - [Repo](https://github.com/atuinsh/atuin)
+  - [Website](https://atuin.sh/)
+- [Heimdall](https://heimdall.site/)
+- [Chartbrew - Client reports for your team and clients](https://chartbrew.com/)
+- [Calibre](https://github.com/kovidgoyal/calibre)
+
+
+## Network Attached Storage
+
+I'd like to have a nice local NAS for backups.
+
+## DNS Sync
+
+I control my DNS using Terraform. Have it sync when it's updated.
+
+## Temperature Check
+
+I want to regularly report the temp of my nodes.
