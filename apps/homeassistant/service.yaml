@@ -7,6 +7,8 @@ metadata:
     tailscale.com/proxy-class: "tailscale-proxy"
     tailscale.com/hostname: "homeassistant"
 spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
   selector:
     app: homeassistant-label
   ports:
