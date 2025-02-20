@@ -1,0 +1,36 @@
+server:
+  persistentVolume:
+    size: 50Gi
+    storageClassName: standard
+
+  retention: 15d
+
+  global:
+    scrape_interval: 15s
+    evaluation_interval: 15s
+
+alertmanager:
+  enabled: true
+  persistentVolume:
+    size: 10Gi
+
+nodeExporter:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true
+
+pushgateway:
+  enabled: true
+
+serviceAccounts:
+  server:
+    create: true
+    annotations: {}
+
+  alertmanager:
+    create: true
+    annotations: {}
+
+rbac:
+  create: true
