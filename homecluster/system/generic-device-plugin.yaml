@@ -1,6 +1,5 @@
 # generic-device-plugin.yaml
 # This allows for the use of `tun`
-
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

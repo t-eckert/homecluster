@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memos
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memos
+  template:
+    metadata:
+      labels:
+        app: memos
+    spec:
+      containers:
+        - name: memos
+          image: neosmemo/memos:stable
+          ports:
+            - containerPort: 5230
+          volumeMounts:
+            - mountPath: /var/opt/memos
+              name: memos-volume
+      volumes:
+        - name: memos-volume
+          persistentVolumeClaim:
+            claimName: memos
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memos
+  namespace: apps
+  labels:
+    tailscale.com/proxy-class: "tailscale-proxy"
+    tailscale.com/hostname: "memos"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+    - port: 80
+      targetPort: 5230
+      protocol: TCP
+  selector:
+    app: memos
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: memos
+  namespace: apps
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path

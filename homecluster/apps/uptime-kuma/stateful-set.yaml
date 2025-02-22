@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: test-uptime-uptime-kuma
-  namespace: uptime-kuma
+  namespace: apps
   labels:
     helm.sh/chart: uptime-kuma-1.3.6
     app.kubernetes.io/name: uptime-kuma

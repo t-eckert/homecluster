@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: debian
-  namespace: debian
+  namespace: apps
   labels:
     app: debian
 spec:
@@ -34,3 +34,16 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: debian
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: debian
+  namespace: apps
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path

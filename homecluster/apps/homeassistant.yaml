@@ -35,3 +35,51 @@ spec:
           persistentVolumeClaim:
             claimName: homeassistant-pv-time
             readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homeassistant-service
+  namespace: homeassistant
+  labels:
+    tailscale.com/proxy-class: "tailscale-proxy"
+    tailscale.com/hostname: "homeassistant"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app: homeassistant-label
+  ports:
+  - name: homeassistant
+    port: 80
+    targetPort: 8123
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homeassistant-pv-time
+  namespace: homeassistant
+  labels:
+    app: homeassistant-label
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homeassistant-pv-config
+  namespace: homeassistant
+  labels:
+    app: homeassistant-label
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 10Gi
