@@ -102,6 +102,27 @@ spec:
     app: pihole
     release: pihole
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole-web-external
+  labels:
+    app: pihole
+    chart: pihole-2.22.0
+    release: pihole
+    heritage: Helm
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local
+  ports:
+    - port: 30002
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: pihole
+    release: pihole
+---
 # Source: pihole/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -210,3 +231,19 @@ spec:
             defaultMode: 420
             name: pihole-custom-dnsmasq
           name: custom-dnsmasq
+---
+# Source: pihole/templates/tests/test-pihole-endpoint.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "pihole-smoke-test"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: hook1-container
+      image: curlimages/curl
+      imagePullPolicy: IfNotPresent
+      command: ["sh", "-c", "curl http://pihole-web:80/"]
+  restartPolicy: Never
+  terminationGracePeriodSeconds: 0
